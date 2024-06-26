@@ -23,7 +23,8 @@ class Profil extends BaseController
     public function load()
     {
         $arr['data_page'] = $this->habilitationModel->getAllpage();
-        echo view('profil/list_profil');
+
+        echo view('profil/list_profil', $arr);
     }
 
     public function addProfil()

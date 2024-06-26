@@ -2,7 +2,7 @@
 <?= view_cell('\App\Libraries\LibView::navBarMenu') ?>
 <?= view_cell('\App\Libraries\LibView::menuVertical') ?>
 
-<link rel="stylesheet" href="<?= base_url('assets/modules/bootstrap/cssbootstrap-duallistbox.min.css.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/modules/bootstrap/css/bootstrap-duallistbox.min.css') ?>">
 
 <style>
     .button-right {
@@ -200,7 +200,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Profil <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" placeholder="Profil">
+                    <input type="text" class="form-control" placeholder="Profil" name="profil_name" id="profil_name" required>
+                    <label for="profil_name" id="profil_name-error" class="validation-error-label"></label>
                 </div>
                 <div class="card border">
                     <div class="card-header custom_card">
@@ -211,15 +212,16 @@
                     </div>
                     <div id="cardBody" class="card-body" style="display: block;">
                         <select multiple="multiple" id="page" class="form-control listbox">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <?php foreach ($data_page as $key_p => $val_p) : ?>
+                                <option value="<?= $val_p->id ?>"><?= $val_p->libelle ?></option>
+                            <?php endforeach; ?>
                         </select>
+                        <label for="page" id="page-error" class="validation-error-label"></label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-icon btn-success"><i class="fas fa-check"></i> Enregistrer</button>
+                <button class="btn btn-icon btn-success" id="save_profil" onclick="insert_profil()"><i class="fas fa-check"></i> Enregistrer</button>
             </div>
         </div>
     </div>
