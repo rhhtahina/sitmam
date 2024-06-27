@@ -201,7 +201,7 @@
                 <div class="form-group">
                     <label>Profil <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" placeholder="Profil" name="profil_name" id="profil_name" required>
-                    <label for="profil_name" id="profil_name-error" class="validation-error-label"></label>
+                    <label for="profil_name" id="profil_name-error" class="validation-error-label text-danger"></label>
                 </div>
                 <div class="card border">
                     <div class="card-header custom_card">
@@ -219,9 +219,9 @@
                         <label for="page" id="page-error" class="validation-error-label"></label>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-icon btn-success" id="save_profil" onclick="insert_profil()"><i class="fas fa-check"></i> Enregistrer</button>
+                <div class="modal-footer">
+                    <button class="btn btn-icon btn-success" id="save_profil" onclick="insert_profil()"><i class="fas fa-check"></i> Enregistrer</button>
+                </div>
             </div>
         </div>
     </div>

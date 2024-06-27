@@ -25,11 +25,7 @@ function insert_profil() {
 
     var profil = $("#profil_name").val();
 
-    console.log("profil = " + profil);
-    console.log("page = " + $("#page").val());
-
     if (profil == "" && $("#page").val() == "") {
-        console.log("tafiditra ato anaty if");
         $("#profil_name-error").text("Le champ PROFIL est obligatoire");
         $("#profil_name-error").css("display", "");
 
