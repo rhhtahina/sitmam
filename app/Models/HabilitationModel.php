@@ -27,4 +27,13 @@ class HabilitationModel extends Model
             ->get()
             ->getResult();
     }
+
+    /**
+     * Nombre profil
+     * @param $profilName
+     * @return integer
+     */
+    public function getProfilName($profilName)
+    {
+    }
 }

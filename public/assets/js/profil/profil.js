@@ -5,6 +5,16 @@ $(document).ready(function() {
     });
 
     setDualList();
+
+    // reset profil modal value
+    $('#modal_ajout_profil').on('hidden.bs.modal', function() {
+        // Initialize the dual listbox
+        $(this).find('input[type="text"], select').val('');
+
+        // Reset the dual listbox
+        $('#page').find('option').prop('selected', false);
+        $('#page').bootstrapDualListbox('refresh', true);
+    });
 });
 
 function setDualList() {
@@ -39,6 +49,7 @@ function insert_profil() {
         $("#profil_name-error").text("Le champ PROFIL est obligatoire");
         $("#profil_name-error").css("display", "");
     } else {
+        showSpinner()
         Swal.fire({
             title: "Ajout du profil : <strong>" + profil + "</strong>",
             text: "Voulez-vous vraiment ajouter ce profil?",
@@ -58,12 +69,30 @@ function insert_profil() {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
+                $.ajax({
+                    type: "POST",
+                    url: urlProject + "Profil/createProfil",
+                    data: { profil_name: profil, page: pageSelected },
+                    success: function(response) {
+                        console.log(response);
+                    }
                 });
+                removeSpinner()
+            } else {
+                removeSpinner()
             }
         });
     }
+}
+
+function showSpinner() {
+    $(".loading-icon").removeClass("hide");
+    $(".check_validation").addClass("hide");
+    $(".button").attr("disabled", true);
+}
+
+function removeSpinner() {
+    $(".loading-icon").addClass("hide");
+    $(".check_validation").removeClass("hide");
+    $(".button").attr("disabled", false);
 }

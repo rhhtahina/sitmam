@@ -65,6 +65,10 @@
     .pull-right {
         display: none !important;
     }
+
+    .hide {
+        display: none;
+    }
 </style>
 
 <!-- Main Content -->
@@ -220,7 +224,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-icon btn-success" id="save_profil" onclick="insert_profil()"><i class="fas fa-check"></i> Enregistrer</button>
+                    <button class="btn btn-icon btn-success button" id="save_profil" onclick="insert_profil()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <i class="fas fa-check check_validation"></i>
+                        <span class="btn-txt">Enregistrer</span>
+                    </button>
                 </div>
             </div>
         </div>

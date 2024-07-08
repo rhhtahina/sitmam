@@ -27,8 +27,17 @@ class Profil extends BaseController
         echo view('profil/list_profil', $arr);
     }
 
-    public function addProfil()
+    /**
+     * Ajout profil 
+     */
+    public function createProfil()
     {
-        echo 'controller add profil';
+        $profil = $this->request->getVar('profil_name');
+        $arr_pages = $this->request->getVar('page');
+
+        echo "profil = $profil";
+        echo '<pre>';
+        print_r($arr_pages);
+        echo '</pre>';
     }
 }
