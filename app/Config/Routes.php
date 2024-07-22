@@ -8,6 +8,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/testdata', 'TestData::index');
 $routes->get('/Profil', 'Profil::index');
+$routes->get('/Profil/getAllProfil', 'Profil::getAllProfil');
+$routes->post('/Profil/getAllProfil', 'Profil::getAllProfil');
 $routes->get('/Profil/createProfil', 'Profil::createProfil');
 $routes->post('/Profil/createProfil', 'Profil::createProfil');
 $routes->get('/User', 'User::index');

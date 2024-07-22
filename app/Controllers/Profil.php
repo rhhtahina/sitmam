@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
+use App\Libraries\LibDatatable;
 use App\Models\HabilitationModel;
+use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Profil extends BaseController
@@ -22,6 +23,7 @@ class Profil extends BaseController
 
     public function load()
     {
+        $arr['data'] = $this->habilitationModel->where('actif', 1)->where('flag_suppression', 0)->orderBy('libelle', 'ASC')->findAll();
         $arr['data_page'] = $this->habilitationModel->getAllpage();
 
         echo view('profil/list_profil', $arr);
@@ -34,10 +36,32 @@ class Profil extends BaseController
     {
         $profil = $this->request->getVar('profil_name');
         $arr_pages = $this->request->getVar('page');
+        $favoris = "";
 
-        echo "profil = $profil";
-        echo '<pre>';
-        print_r($arr_pages);
-        echo '</pre>';
+        /* Vérification de doublon du nom de profil*/
+        $verifProfil = $this->habilitationModel->getProfilName($profil);
+        /* Vérifier si les pages sélectionnées sont déjà associées à un autre profil */
+        $verifPage = $this->habilitationModel->comparePageOfProfil($arr_pages);
+
+        if ($verifProfil > 0) {
+            $msg = 'doublon profil';
+        } elseif (!is_null($verifPage)) {
+            $msg = 'doublon page||' . $verifPage;
+        } else {
+            $responsedb = $this->habilitationModel->addProfil($profil, $arr_pages, $favoris);
+            $msg = ($responsedb) ? '1' : '0';
+        }
+
+        return $msg;
+    }
+
+    public function getAllProfil()
+    {
+        $columnOrder = array(null, "libelle");
+        $column = array("id", "libelle");
+        $columnSearch = array("libelle");
+        $libDt = new LibDatatable(1, TBL_PROFIL, [], array("actif" => 1, "flag_suppression" => 0), $column, $columnOrder, $columnSearch, array('libelle' => 'asc'), "", 3);
+        $arr = $libDt->ajaxDataTables();
+        return json_encode($arr);
     }
 }
