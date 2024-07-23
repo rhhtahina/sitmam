@@ -90,6 +90,10 @@
     .sorting_1 {
         width: 140px;
     }
+
+    .sorting_2 {
+        text-align: center;
+    }
 </style>
 
 <!-- Main Content -->
@@ -100,7 +104,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="card-header button-right">
                         <button type="button" class="btn btn-icon icon-left btn-primary btn-right" id="add_profil" data-toggle="modal" data-target="#modal_ajout_profil"><i class="far fa-user"></i> Ajout Profil</button>
@@ -173,5 +177,6 @@
 <?= view_cell('\App\Libraries\LibView::footer'); ?>
 
 <script type="text/javascript" src="assets/js/profil/profil.js?d=<?= date('YmdHis') ?>"></script>
+<script type="text/javascript" src="assets/js/profil/profil_edit.js?d=<?= date('YmdHis') ?>"></script>
 <script type="text/javascript" src="assets/js/page/datatable.js?d=<?= date('YmdHis')  ?>"></script>
 <script type="text/javascript" src="assets/modules/inputs/duallistbox.min.js"></script>
