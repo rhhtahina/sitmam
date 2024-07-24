@@ -174,6 +174,20 @@
 </div>
 <!-- FIN MODAL AJOUT PROFIL -->
 
+<!-- MODAL VIEW PROFIL -->
+<div id="modal_view_profil" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-popup="tooltip" title="Fermer le pop-up" data-placement="lert">&times;</button>
+                <h5 class="modal-title text-center" id="title">Modification d'un profil</h5>
+            </div>
+            <div class="modal-body" id="div_profil"></div>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL VIEW PROFIL -->
+
 <?= view_cell('\App\Libraries\LibView::footer'); ?>
 
 <script type="text/javascript" src="assets/js/profil/profil.js?d=<?= date('YmdHis') ?>"></script>

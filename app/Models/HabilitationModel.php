@@ -8,6 +8,11 @@ class HabilitationModel extends Model
 {
     protected $db;
     protected $table = TBL_PROFIL;
+    protected $primaryKey = 'id';
+    protected $allowedFields = ['id', 'libelle', 'actif', 'date_creation', 'cree_par', 'date_modification', 'modifie_par', 'date_suppression', 'supprime_par'];
+    protected $returnType = 'array';
+    protected $validationRules = [];
+    protected $validationMessages = [];
     protected $tbl_page = TBL_PAGE;
     protected $tbl_section = TBL_SECTION;
     protected $tbl_access_profiles_pages = TBL_ACCES;
@@ -18,6 +23,9 @@ class HabilitationModel extends Model
         $this->db = db_connect();
     }
 
+    /**
+     * Liste de toutes les pages actives
+     */
     public function getAllPage()
     {
         return $this->db->table($this->tbl_page)

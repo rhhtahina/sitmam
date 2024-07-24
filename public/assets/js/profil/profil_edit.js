@@ -1,6 +1,13 @@
 function view(id, act) {
-    console.log("id = " + id);
-    console.log("act = " + act);
+    $("#div_profil").html("");
+    $.ajax({
+        type: "post",
+        url: urlProject + "Profil/viewProfil",
+        data: { id: id, action: act },
+        success: function(response) {
+
+        }
+    });
 }
 
 function del(id) {

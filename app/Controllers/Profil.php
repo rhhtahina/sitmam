@@ -55,6 +55,23 @@ class Profil extends BaseController
         return $msg;
     }
 
+    /**
+     * Visualisation profil
+     */
+    public function viewProfil()
+    {
+        $id = $this->request->getVar('id');
+        $action = $this->request->getVar('action');
+
+        $arrData = $this->habilitationModel->where('id', $id)->first();
+
+        $arr["data"] = $arrData;
+        $arr["data_page"] = $this->habilitationModel->getAllPage();
+
+        /* id de page par profil */
+        $arr_profil = $this->fetchPageByProfil($id);
+    }
+
     public function getAllProfil()
     {
         $columnOrder = array(null, "libelle");
@@ -63,5 +80,9 @@ class Profil extends BaseController
         $libDt = new LibDatatable(1, TBL_PROFIL, [], array("actif" => 1, "flag_suppression" => 0), $column, $columnOrder, $columnSearch, array('libelle' => 'asc'), "", 3);
         $arr = $libDt->ajaxDataTables();
         return json_encode($arr);
+    }
+
+    public function fetchPageByProfil($id)
+    {
     }
 }
