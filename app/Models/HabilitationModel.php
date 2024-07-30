@@ -52,6 +52,36 @@ class HabilitationModel extends Model
         return $nb;
     }
 
+    /**
+     * Liste des pages par profil
+     * @param $id_profil
+     */
+    public function getPageByProfil($id_profil)
+    {
+        if (!is_null($id_profil)) {
+            return $this->db->table($this->tbl_access_profiles_pages)->where('profil_id', $id_profil)->where('page_id != 1', null)->select('*')->get()->getResultArray();
+        }
+    }
+
+    /**
+     * liste de toutes les pages actives par profil id
+     */
+    public function getAllPageByProfilId($id_profil)
+    {
+        if (!is_null($id_profil)) {
+            return $this->db->table($this->tbl_page)
+                ->join($this->tbl_access_profiles_pages, $this->tbl_access_profiles_pages . '.page_id = ' . $this->tbl_page . '.id', 'left')
+                ->where('profil_id', $id_profil)
+                ->where($this->tbl_page . '.id != 1', null)
+                ->where($this->tbl_page . '.actif', 1)
+                ->orderBy($this->tbl_page . '.libelle', 'ASC')
+                ->select('*')
+                ->get()
+                ->getResult();
+        }
+        return array();
+    }
+
     public function comparePageOfProfil($arr_pages, int $profil_id = null)
     {
         // Ajouter la valeur 1 au tableau

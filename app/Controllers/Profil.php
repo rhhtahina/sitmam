@@ -70,6 +70,15 @@ class Profil extends BaseController
 
         /* id de page par profil */
         $arr_profil = $this->fetchPageByProfil($id);
+
+        $arr['data_page_profil'] = $this->habilitationModel->getAllPageByProfilId($id);
+        $arr['data_profil_id'] = $arr_profil;
+
+        $arr["disabled"] = ($action == "voir") ? "disabled=disabled" : "";
+        $arr["display"] = ($action == "voir") ? 'style="display:none;"' : "";
+        $arr["action"] = $action;
+
+        echo view('profil/edit_profil', $arr);
     }
 
     public function getAllProfil()
@@ -84,5 +93,11 @@ class Profil extends BaseController
 
     public function fetchPageByProfil($id)
     {
+        $arr_page = array();
+        $arr_profil_page = $this->habilitationModel->getPageByProfil($id);
+        foreach ($arr_profil_page as $key => $val) :
+            array_push($arr_page, $val['page_id']);
+        endforeach;
+        return $arr_page;
     }
 }
