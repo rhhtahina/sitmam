@@ -81,6 +81,26 @@ class Profil extends BaseController
         echo view('profil/edit_profil', $arr);
     }
 
+    /**
+     * Update Profil
+     */
+    public function updateProfil()
+    {
+        $id = $this->request->getVar('id');
+        $profil = $this->request->getVar('profil');
+        $arr_pages = $this->request->getVar('page');
+
+        $profilOld = $this->getProfilById($id);
+        /* Page id par profil enregistré dans la BDD */
+        $arr_old_page = $this->fetchPageByProfil($id);
+        $arr_diff_page = array_merge(array_diff($arr_old_page, $arr_pages), array_diff($arr_pages, $arr_old_page));
+
+        /* ras => aucun changement => comparer le profil saisi et le profil enregistré dans BDD */
+        $compareProfil =  (($profilOld == $profil) && empty($arr_diff_page)) ? "ras" :  "go";
+
+        echo $compareProfil;
+    }
+
     public function getAllProfil()
     {
         $columnOrder = array(null, "libelle");
@@ -99,5 +119,15 @@ class Profil extends BaseController
             array_push($arr_page, $val['page_id']);
         endforeach;
         return $arr_page;
+    }
+
+    /**
+     * Prendre un profil par id
+     */
+    public function getProfilById($id)
+    {
+        $arrData = $this->habilitationModel->where('id', $id)->first();
+        $profil = !empty($arrData) ? $arrData["libelle"] : null;
+        return $profil;
     }
 }

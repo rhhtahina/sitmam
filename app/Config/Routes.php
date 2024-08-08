@@ -14,5 +14,6 @@ $routes->post('/Profil/getAllProfil', 'Profil::getAllProfil');
 $routes->get('/Profil/createProfil', 'Profil::createProfil');
 $routes->post('/Profil/createProfil', 'Profil::createProfil');
 $routes->post('/Profil/viewProfil', 'Profil::viewProfil');
+$routes->post('/Profil/updateProfil', 'Profil::updateProfil');
 
 $routes->get('/User', 'User::index');
