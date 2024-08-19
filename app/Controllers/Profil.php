@@ -90,6 +90,8 @@ class Profil extends BaseController
         $profil = $this->request->getVar('profil');
         $arr_pages = $this->request->getVar('page');
 
+        $msg = "";
+
         $profilOld = $this->getProfilById($id);
         /* Page id par profil enregistré dans la BDD */
         $arr_old_page = $this->fetchPageByProfil($id);
@@ -98,7 +100,25 @@ class Profil extends BaseController
         /* ras => aucun changement => comparer le profil saisi et le profil enregistré dans BDD */
         $compareProfil =  (($profilOld == $profil) && empty($arr_diff_page)) ? "ras" :  "go";
 
-        echo $compareProfil;
+        if ($compareProfil == "go") {
+            /* Vérification de doublon du nom de profil*/
+            $verifProfilId = $this->habilitationModel->getIdByProfilName($profil);
+
+            /* Vérifier si les pages sélectionnées sont déjà associées à un autre profil */
+            $verifPage = $this->habilitationModel->comparePageOfProfil($arr_pages, $id);
+
+            if (!is_null($verifProfilId) && $verifProfilId != $id) {
+                $msg = "doublon profil";
+            } elseif (!is_null($verifPage)) {
+                $msg = 'doublon page||' . $verifPage;
+            } else {
+                $responsedb = $this->habilitationModel->updateProfil($id, $profil, $arr_pages, $arr_old_page);
+                $msg = ($responsedb) ? 'ok' : 'ko';
+            }
+        } else {
+            $msg = "ras";
+        }
+        return $msg;
     }
 
     public function getAllProfil()
@@ -129,5 +149,22 @@ class Profil extends BaseController
         $arrData = $this->habilitationModel->where('id', $id)->first();
         $profil = !empty($arrData) ? $arrData["libelle"] : null;
         return $profil;
+    }
+
+    /**
+     * Suppression d'un profil
+     */
+    public function deleteProfil()
+    {
+        $id = $this->request->getVar('id');
+        $data = [
+            'actif' => 0,
+            'date_suppression' => date("Y-m-d H:i:s"),
+            'supprime_par' => 1,
+            'flag_suppression' => 1
+        ];
+        $responsedb = $this->habilitationModel->supprimerProfil($id, $data);
+        $msg = ($responsedb) ? 'ok' : 'ko';
+        return $msg;
     }
 }

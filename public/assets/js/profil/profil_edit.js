@@ -1,3 +1,12 @@
+$(document).ready(function() {
+    $(".swal2-cancel").click(function() {
+        e.preventDefault();
+
+        console.log("click cancel");
+        removeSpinner();
+    });
+});
+
 function view(id, act) {
     $("#div_profil").html("");
     $.ajax({
@@ -66,16 +75,103 @@ function maj(id) {
                         page: page,
                     },
                     success: function(response) {
-
+                        var rep = response.split("||");
+                        var res = rep[0];
+                        if (res == "doublon profil") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                html: "Le profil <strong>" + profil + "</strong> existe déjà",
+                            });
+                        } else if (res == "doublon page") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                html: "Les pages sélectionnées sont déjà associées au profil <strong>" +
+                                    rep[1] +
+                                    "</strong>",
+                            });
+                        } else if (res == "ko") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                html: "Merci de réessayer",
+                            });
+                        } else if (res == "ras") {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Oops...",
+                                html: "Aucune modification n'a été faite",
+                            });
+                        } else if (res == "ok") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Modification",
+                                html: "Modification réussie pour le profil <strong>" +
+                                    profil +
+                                    "</strong>",
+                            }).then(() => {
+                                $("#modal_view_profil").modal("hide");
+                                window.location.href = "Profil";
+                            });
+                        }
+                        removeSpinner();
                     }
                 });
+            } else {
+                $("#modal_view_profil").modal("hide");
+                window.location.href = "Profil";
             }
         });
     }
 }
 
 function del(id) {
-    console.log("del_id = " + id);
+    Swal.fire({
+        title: "Confirmation",
+        text: "Si le profil est supprimé, les comptes qui ont ce profil n'auront plus accès à l'application. Voulez-vous vraiment le supprimer?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Non",
+        confirmButtonText: "Oui",
+        reverseButtons: true,
+        didOpen: () => {
+            // Remove focus from both buttons
+            document.querySelector(".swal2-confirm").blur();
+        },
+        customClass: {
+            confirmButton: "swal2-confirm",
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "post",
+                url: urlProject + "Profil/deleteProfil",
+                data: { id: id },
+                success: function(response) {
+                    if (response == "ok") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Suppression",
+                            html: "Le profil a bien été supprimé",
+                        }).then(() => {
+                            window.location.href = "Profil";
+                        });
+                    } else if (response == "ko") {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            html: "Merci de réessayer",
+                        }).then(() => {
+                            window.location.href = "Profil";
+                        });
+                    }
+                }
+            });
+        }
+    });
 }
 
 function showSpinner() {

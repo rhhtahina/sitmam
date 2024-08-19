@@ -115,7 +115,6 @@ function insert_profil() {
                                 $("#modal_ajout_profil").modal("hide");
                                 window.location.href = "Profil";
                             });
-                            removeSpinner();
                         } else if (res == "0") {
                             Swal.fire({
                                 icon: "error",
@@ -123,9 +122,9 @@ function insert_profil() {
                                 html: "Merci de réessayer",
                             });
                         }
+                        removeSpinner();
                     },
                 });
-                removeSpinner();
             } else {
                 $("#modal_ajout_profil").modal("hide");
                 window.location.href = "Profil";

@@ -88,6 +88,7 @@ class HabilitationModel extends Model
         $arr_pages[] = 1;
 
         $arr = 'array[' . implode(',', $arr_pages) . ']';
+
         $where = "";
         if (!is_null($profil_id)) {
             $where = " and profil_id != " . $profil_id;
@@ -116,6 +117,8 @@ class HabilitationModel extends Model
                 ";
         $result = $this->db->query($sql);
         $res = $result->getRow();
+
+
         if (isset($res->profil_id)) {
             return $res->profil_libelle;
         }
@@ -168,5 +171,86 @@ class HabilitationModel extends Model
             $this->db->transCommit();
             return true;
         }
+    }
+
+    /**
+     * Id du profil
+     * @param $profilName
+     * @return integer
+     */
+    public function getIdByProfilName($profilName)
+    {
+        if ($profilName != "") {
+            $res = $this->db->table($this->table)->where('lower(libelle)', strtolower($profilName))->where('actif', 1)->select('*')->get()->getRow();
+            if (isset($res->id)) {
+                return $res->id;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Modification d'un profil + modification des accès de ce profil par rapprot aux pages sélectionnées
+     * @param $id
+     * @param $profil
+     * @param $arr_pages
+     * @return boolean
+     */
+    public function updateProfil($id, $profil, $arr_pages, $arr_old_page)
+    {
+        $data = [
+            'libelle' => $profil,
+            'date_modification' => date('Y-m-d H:i:s'),
+            'modifie_par' => 1,
+        ];
+
+        $this->db->transBegin();
+
+        /* Modification du nouveau profil */
+        $this->db->table($this->table)
+            ->where('id', $id)
+            ->update($data);
+        $nb = $this->db->affectedRows();
+
+        if ($nb > 0 && $id > 0) {
+            /* Suppression des accès */
+            foreach ($arr_old_page as $key_old => $val_old) :
+                $this->db->table($this->tbl_access_profiles_pages)
+                    ->where('profil_id', $id)
+                    ->where('page_id', $val_old)
+                    ->delete();
+            endforeach;
+
+            /* Insertion du nouveau accès */
+            foreach ($arr_pages as $key => $val) :
+                $data = [
+                    'profil_id' => $id,
+                    'page_id' => $val,
+                    'page_accueil' => 1
+                ];
+                $this->db->table($this->tbl_access_profiles_pages)->insert($data);
+            endforeach;
+        }
+
+        if ($this->db->transStatus() === false || $nb == 0) {
+            $this->db->transRollback();
+            return false;
+        } else {
+            $this->db->transCommit();
+            return true;
+        }
+    }
+
+    public function supprimerProfil($id, $arr)
+    {
+        if (!empty($arr)) {
+            $result = $this->db->table('profil')->where('id', $id)->update($arr);
+            if ($result) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }
