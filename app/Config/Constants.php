@@ -94,9 +94,11 @@ define('EVENT_PRIORITY_NORMAL', 100);
 define('EVENT_PRIORITY_HIGH', 10);
 
 /**
- * TABLE PARAMETRES
+ * PARAMETRES
  */
 defined('TBL_PROFIL')       || define('TBL_PROFIL', 'profil');
 defined('TBL_PAGE')       || define('TBL_PAGE', 'page');
 defined('TBL_SECTION')       || define('TBL_SECTION', 'section');
 defined('TBL_ACCES')       || define('TBL_ACCES', 'acces');
+
+defined('TBL_UTILISATEUR')       || define('TBL_UTILISATEUR', 'utilisateur');

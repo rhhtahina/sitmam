@@ -17,4 +17,7 @@ $routes->post('/Profil/viewProfil', 'Profil::viewProfil');
 $routes->post('/Profil/updateProfil', 'Profil::updateProfil');
 $routes->post('/Profil/deleteProfil', 'Profil::deleteProfil');
 
+// Utilisateur
 $routes->get('/User', 'User::index');
+$routes->post('/User/createUser', 'User::createUser');
+$routes->post('/User/getAllUser', 'User::getAllUser');
