@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     let data_utilisateur = {};
     let arr_render_utilsiateur = [2, 3];
-    tableUtilisateur = initializeDtServerSide(
+    tableUtilisateur = initializeDtServerSide_user(
         "table_utilisateur",
         "User/getAllUser",
         data_utilisateur,
@@ -133,6 +133,10 @@ function insert_utilisateur() {
             }
         });
     }
+}
+
+function view_user(id) {
+    console.log("user id = " + id);
 }
 
 function showSpinner() {

@@ -161,6 +161,20 @@
 </div>
 <!-- FIN MODAL AJOUT UTILISATEUR -->
 
+<!-- MODAL VIEW UTILISATEUR -->
+<div id="modal_view_user" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-popup="tooltip" title="Fermer le pop-up" data-placement="lert">&times;</button>
+                <h5 class="modal-title text-center" id="title">Modification Utilisateur</h5>
+            </div>
+            <div class="modal-body" id="div_user"></div>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL VIEW UTILISATEUR -->
+
 <?= view_cell('\App\Libraries\LibView::footer'); ?>
 
 <script type="text/javascript" src="assets/js/utilisateur/utilisateur.js?d=<?= date('YmdHis') ?>"></script>
